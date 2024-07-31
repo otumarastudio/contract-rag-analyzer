@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Naive RAG{% endblock %}
+
+{% block content %}
+<h1 class="mt-4">NAIVE RAG</h1>
+<div class="content">
+    <div class="question-form">
+        <h2 class="mb-3">질문을 입력하세요</h2>
+        <form method="POST">
+            <div class="mb-3">
+                <input type="text" class="form-control" name="question" id="question-input" required placeholder="여기에 질문을 입력하세요">
+            </div>
+            <button type="submit" class="btn btn-primary">질문하기</button>
+        </form>
+        {% if qa_pairs %}
+        <div class="question-list">
+            <h3>사용 가능한 질문:</h3>
+            {% for question in qa_pairs.keys() %}
+            <button class="btn btn-outline-secondary btn-sm" onclick="setQuestion('{{ question }}')">{{ question }}</button>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+    
+    {% if question and answer %}
+    <div class="card mt-4">
+        <div class="card-header">
+            질문
+        </div>
+        <div class="card-body">
+            <p class="card-text">{{ question }}</p>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            답변
+        </div>
+        <div class="card-body">
+            <div class="answer-content">
+                {{ answer|safe }}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    function setQuestion(question) {
+        document.getElementById('question-input').value = question;
+    }
+</script>
+{% endblock %}

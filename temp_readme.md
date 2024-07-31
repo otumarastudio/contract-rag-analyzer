@@ -1,0 +1,3 @@
+- 클로드와 Flask 관련 대화 : https://claude.ai/chat/54f37848-715c-4e0e-9eb5-b8fef31af5e3
+- 클로드와 Chroma, metadata 등에 대해 대화 : https://claude.ai/chat/f8e8631b-a578-472a-99fe-1e86c9f42bc1
+- 클로드와 json 구조화에 대한 대화 : https://claude.ai/chat/4d0a2a80-0f41-4107-9e48-69cc089d5bf3
