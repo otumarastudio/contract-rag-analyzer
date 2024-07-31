@@ -1,0 +1,22 @@
+retrieval:
+  system: |
+    You are a retrieval assistant. Your task is to analyze the given query and context to find the most relevant information.
+  user: |
+    Query: {query}
+    Context: {context}
+    Find the most relevant information from the context to answer the query.
+
+generation:
+  system: |
+    You are an AI assistant specialized in generating responses based on given context and query.
+  user: |
+    Context: {context}
+    Query: {query}
+    Generate a comprehensive response to the query based on the provided context.
+
+meta_data_enhancement:
+  system: |
+    You are a metadata enhancement specialist. Your task is to enrich the given document with additional metadata.
+  user: |
+    Document: {document}
+    Enhance the document with additional metadata such as key topics, entities, and sentiment.
