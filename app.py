@@ -39,20 +39,20 @@ def add_language_class(html):
     return re.sub(r'<pre><code>', r'<pre><code class="language-python">', html)
 
 @app.route('/', methods=['GET', 'POST'])
+
 def index():
-    if request.method == 'POST':
-        return naive_rag()
     return redirect(url_for('advanced_rag'))
 
-@app.route('/naive_rag', methods=['GET', 'POST'])
-def naive_rag():
-    if request.method == 'POST':
-        question = request.form['question']
-        answer = qa_pairs.get(question, "죄송합니다. 해당 질문에 대한 답변을 찾을 수 없습니다.")
-        answer_html = markdown2.markdown(answer, extras=["fenced-code-blocks"])
-        answer_html = add_language_class(answer_html)
-        return render_template('naive_rag.html', question=question, answer=answer_html, qa_pairs=qa_pairs)
-    return render_template('naive_rag.html', qa_pairs=qa_pairs)
+
+# @app.route('/naive_rag', methods=['GET', 'POST'])
+# def naive_rag():
+#     if request.method == 'POST':
+#         question = request.form['question']
+#         answer = qa_pairs.get(question, "죄송합니다. 해당 질문에 대한 답변을 찾을 수 없습니다.")
+#         answer_html = markdown2.markdown(answer, extras=["fenced-code-blocks"])
+#         answer_html = add_language_class(answer_html)
+#         return render_template('naive_rag.html', question=question, answer=answer_html, qa_pairs=qa_pairs)
+#     return render_template('naive_rag.html', qa_pairs=qa_pairs)
 
 # def format_metadata(metadata):
 #     relevant_fields = ["page", "total_pages", "source", "subject", "title"]

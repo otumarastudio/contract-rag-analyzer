@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}RAG System{% endblock %}</title>
+    <title>{% block title %}Daewoo E&C CONTRACT ANALYSIS{% endblock %}</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
@@ -12,15 +13,16 @@
         <div class="row">
             <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
                 <div class="position-sticky">
+                    <!-- 사이드바 최상단에 이미지 추가 -->
+                    <div class="sidebar-logo">
+                        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
+                    </div>
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('naive_rag') }}">NAIVE RAG</a>
+                            <a class="nav-link" href="{{ url_for('advanced_rag') }}">🚀 ADVANCED RAG</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('advanced_rag') }}">ADVANCED RAG</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('documents_manage') }}">DOCUMENTS</a>
+                            <a class="nav-link" href="{{ url_for('documents_manage') }}">🗂️ DOCUMENTS (개발 중)</a>
                         </li>
                     </ul>
                 </div>

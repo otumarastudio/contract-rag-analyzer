@@ -138,3 +138,23 @@ main {
     transform: translate(-50%, -50%);
     z-index: 9999;
 }
+
+.sidebar-logo {
+    display: flex;
+    justify-content: start;
+    align-items: flex-end;
+    margin-top: 5px; /* 상단 여백 줄임 */
+    margin-bottom: 50px;
+    padding-left: 15px;
+    height: 30px; /* 로고 컨테이너의 높이를 반으로 줄임 */
+    overflow: hidden;
+}
+
+.sidebar-logo img {
+    width: auto;
+    height: 60px; /* 이미지의 실제 높이를 반으로 줄임 */
+    max-width: 100%;
+    object-fit: cover;
+    object-position: bottom;
+    transform: translateY(0px); /* 이미지 이동 거리를 반으로 줄임 */
+}
