@@ -42,7 +42,7 @@ def add_language_class(html):
 def index():
     if request.method == 'POST':
         return naive_rag()
-    return redirect(url_for('naive_rag'))
+    return redirect(url_for('advanced_rag'))
 
 @app.route('/naive_rag', methods=['GET', 'POST'])
 def naive_rag():
@@ -54,6 +54,16 @@ def naive_rag():
         return render_template('naive_rag.html', question=question, answer=answer_html, qa_pairs=qa_pairs)
     return render_template('naive_rag.html', qa_pairs=qa_pairs)
 
+# def format_metadata(metadata):
+#     relevant_fields = ["page", "total_pages", "source", "subject", "title"]
+#     formatted_metadata = {k: v for k, v in metadata.items() if k in relevant_fields}
+#     return json.dumps(formatted_metadata, ensure_ascii=False)
+
+def format_metadata(metadata):
+    relevant_fields = ["page", "total_pages", "source"]
+    formatted_metadata = {k: v for k, v in metadata.items() if k in relevant_fields}
+    return " | ".join(f"{k}: {v}" for k, v in formatted_metadata.items())
+
 @app.route('/advanced_rag', methods=['GET', 'POST'])
 def advanced_rag():
     if request.method == 'POST':
@@ -62,7 +72,8 @@ def advanced_rag():
             rag_system = get_rag_system()
             
             logger.info(f"Processing query: {question}")
-            result = rag_system.process_query(question)
+            # enhanced_query = rag_system.query_enhancing(question)  # query_enhancing 실행
+            result = rag_system.process_query(question)  # original query 사용
             logger.info("Query processed successfully")
             
             answer_html = markdown2.markdown(result["answer"], extras=["fenced-code-blocks"])
@@ -70,19 +81,25 @@ def advanced_rag():
             
             search_results_html = ""
             for i, doc in enumerate(result["search_results"], 1):
-                search_results_html += f"<h4>문서 조각 {i}</h4>"
-                search_results_html += f"<p>{doc.page_content}</p>"
-                search_results_html += f"<p><strong>메타데이터:</strong> {json.dumps(doc.metadata, ensure_ascii=False)}</p>"
-            
-            return render_template('advanced_rag.html', question=question, answer=answer_html, search_results=search_results_html)
+                search_results_html += f"<div class='list-group-item'>"
+                search_results_html += f"<p class='mb-1'>{doc.page_content}</p>"
+                search_results_html += f"<small class='text-muted'>정보: {format_metadata(doc.metadata)}</small>"
+                search_results_html += "</div>"
+                if i < len(result["search_results"]):
+                    search_results_html += "<hr>"            
+
+            # enhanced_query 추가
+            enhanced_query = result.get("enhanced_query", "")
+                        
+            return render_template('advanced_rag.html', question=question, enhanced_query=enhanced_query, answer=answer_html, search_results=search_results_html)
         except Exception as e:
             logger.error(f"Error processing query: {str(e)}")
             return jsonify({"error": str(e)}), 500
     return render_template('advanced_rag.html')
 
-@app.route('/prompt_setting')
-def prompt_setting():
-    return render_template('prompt_setting.html')
+@app.route('/documents')
+def documents_manage():
+    return render_template('documents.html')
 
 @app.teardown_appcontext
 def teardown_rag_system(exception):

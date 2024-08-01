@@ -1,26 +1,20 @@
-
-# core/query_processing.py
-from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
+from config import CHROMADB_PATH, OPENAI_API_KEY
 from langchain_core.prompts import ChatPromptTemplate
 
-def create_prompt_template():
-    return PromptTemplate.from_template(
-        """당신은 건설 프로젝트의 계약자를 위한 계약서 분석 전문가입니다. 주어진 질문에 대해 계약서의 관련 부분을 분석하고 핵심적인 답변을 제공해야 합니다. 다음 지침을 따라 답변을 작성하세요:
-        1. 질문의 의도를 정확히 파악하여 답변하세요.
-        2. 답변은 bullet point 형식으로 핵심 내용만 간결하게 작성하세요. 합니다 가 아닌 함. 이런식의 개조체 보고체로 작성하세요.
-        3. 제공된 계약서 조각들에서 질문에 대한 명확한 답변을 찾을 수 없다면, 어떤 부분에 대한 답변이 없는지 명시하세요.
-        4. 질문의 일부나 전체에 대한 답을 모르거나 관련 정보가 없다면, 어떤 질문에 대한 답변을 찾을 수 없는지 정확히 명기해주세요.
-        5. 추측하거나 계약서에 명시되지 않은 정보를 절대 제공하지 마십시오.
-        6. 답변은 항상 객관적이고 사실에 기반해야 하며, 계약자의 입장에서 중요한 정보를 강조하세요.
-        7. 답변은 마크다운으로 작성하세요.
-        #질문: {question}
-        #계약서 관련 부분: {context}
-        #답변:"""
-    )
-
-
 def query_enhancing(question):
+    # GPT 모델을 통해 사용자 쿼리를 수정하는 함수
+    model = ChatOpenAI(model="gpt-4o", temperature=0.1)  # GPT 모델 초기화
+    prompt = f"""
+    사용자가 쿼리를 날리면, 영문의 대형 산업설비(oil&gas, powerplant, etc..) 건설 프로젝트의 계약서의 RAG 시스템의 유사도검색을 위한 query로 변환할 것이다. 사용자의 질문의 의도를 명확히 파악하고, 계약서의 cosine similarity score 검색을 위한 강화된 쿼리를 영문으로 제공하면 된다.
+    질문: "{question}"
+    최적화된 쿼리: 
+    """
+    response = model.generate({"messages": [{"role": "user", "content": prompt}]})
+    full_response = response.generations[0].text.strip()
+    return full_response, response
+
+def query_enhancing2(question):
     # GPT 모델을 통해 사용자 쿼리를 수정하는 함수
     llm = ChatOpenAI(model="gpt-4o", temperature=0.1)  # GPT 모델 초기화
     prompt = ChatPromptTemplate.from_messages([
@@ -46,5 +40,14 @@ Enhanced query: "contractor obligations project management control work supervis
     })   
     # 응답의 텍스트 부분을 추출
     #response = llm.invoke(messages)
+    print(response)
+    return response
 
-    return response.content
+if __name__ == "__main__":
+    question = "Who provides meals and accommodations?"
+    response = query_enhancing2(question)
+    
+    # 전체 응답 출력
+    print("Response:")
+    print(response.content)
+    

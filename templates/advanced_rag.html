@@ -3,7 +3,7 @@
 {% block title %}Advanced RAG{% endblock %}
 
 {% block content %}
-<h1 class="mt-4 text-center mb-4">ADVANCED RAG</h1>
+<!-- <h1 class="mt-4">ADVANCED RAG</h1>
 <div class="content">
     <div class="question-form">
         <h2 class="mb-3">질문을 입력하세요</h2>
@@ -13,6 +13,31 @@
             </div>
             <button type="submit" class="btn btn-primary">질문하기</button>
         </form>
+    </div>
+     -->
+<!--  1차 수정 : 버튼 위치 맘에 안듬   
+    <form method="POST" onsubmit="showLoading()">
+        <div class="mb-3">
+            <input type="text" class="form-control" name="question" id="question-input" required placeholder="여기에 질문을 입력하세요">
+        </div>
+        <button type="submit" class="btn btn-primary">질문하기</button>
+    </form> -->
+
+<h1 class="mt-4 text-center mb-4">ADVANCED RAG</h1>
+<p class="text-center"><br />LLM 기반 계약문서 분석 기술 개발 과제의 프로토타입입니다. 성능, 기능이 얼마든지 개선이 가능하므로, 보완점을 생각해보시고 제안해주세요.<br /></p>
+<br />
+<div class="content" style="padding: 0 15%;">
+    <form id="query-form" method="POST" onsubmit="showLoading()" class="d-flex mb-3">
+        <input type="text" class="form-control me-2" name="question" id="question-input" required placeholder="여기에 질문을 입력하세요">
+
+        <button type="submit" class="btn btn-primary" id="submit-button" style="width: 150px;">질문하기</button>
+    </form>
+    
+    <!-- 로딩 애니메이션 -->
+    <div id="loading" style="display: none;" class="text-center mt-4">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
     </div>
     
     {% if question and answer %}
@@ -26,7 +51,17 @@
     </div>
     <div class="card mt-2">
         <div class="card-header">
-            답변
+            Ai가 개선한 질문
+        </div>
+        <div class="card-body">
+            <div class="enhanced-query-content">
+                {{ enhanced_query|safe }}
+            </div>
+        </div>
+    </div>
+    <div class="card mt-2">
+        <div class="card-header">
+            Ai 답변
         </div>
         <div class="card-body">
             <div class="answer-content">
@@ -37,10 +72,17 @@
     {% if search_results %}
     <div class="card mt-2">
         <div class="card-header">
-            검색 결과
+            문서 내 유사도 검색 결과
         </div>
         <div class="card-body">
-            {{ search_results|safe }}
+            <div class="list-group">
+                {{ search_results|safe }}
+            </div>
+            {% if search_results|length > 10 %}
+            <div class="mt-2">
+                <small class="text-muted">최대 10개의 검색 결과만 표시됩니다.</small>
+            </div>
+            {% endif %}
         </div>
     </div>
     {% endif %}
@@ -51,5 +93,17 @@
     function setQuestion(question) {
         document.getElementById('question-input').value = question;
     }
+    function showLoading() {
+        document.getElementById('loading').style.display = 'block';
+        var submitButton = document.getElementById('submit-button');
+        submitButton.disabled = true;
+        submitButton.classList.add('disabled');
+    }
+    document.getElementById('question-input').addEventListener('keypress', function (event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();  // 기본 동작 막기
+            document.getElementById('query-form').submit();  // 폼 제출
+        }
+    });
 </script>
 {% endblock %}
