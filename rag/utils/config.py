@@ -5,8 +5,22 @@ load_dotenv()
 
 LANGCHAIN_PROJECT = os.getenv("LANGCHAIN_PROJECT")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-# CHROMADB_PATH = os.path.abspath(os.getenv("CHROMADB_PATH", "./chroma_db"))
-CHROMADB_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'chroma_db'))
+
+FIREBASE_WEB_API_KEY = os.getenv("FIREBASE_WEB_API_KEY")
+FIREBASE_AUTH_DOMAIN = os.getenv("FIREBASE_AUTH_DOMAIN")
+FIREBASE_PROJECT_ID = os.getenv("FIREBASE_PROJECT_ID")
+FIREBASE_STORAGE_BUCKET = os.getenv("FIREBASE_STORAGE_BUCKET")
+FIREBASE_MESSAGING_SENDER_ID = os.getenv("FIREBASE_MESSAGING_SENDER_ID")
+FIREBASE_APP_ID = os.getenv("FIREBASE_APP_ID")
+FIREBASE_PRIVATE_KEY_ID = os.getenv("FIREBASE_PRIVATE_KEY_ID")
+FIREBASE_PRIVATE_KEY = os.getenv("FIREBASE_PRIVATE_KEY")
+FIREBASE_CLIENT_EMAIL = os.getenv("FIREBASE_CLIENT_EMAIL")
+FIREBASE_CLIENT_ID = os.getenv("FIREBASE_CLIENT_ID")
+FIREBASE_CLIENT_CERT_URL = os.getenv("FIREBASE_CLIENT_CERT_URL")
+FLASK_SECRET_KEY = os.getenv("FLASK_SECRET_KEY")
+
+CHROMADB_PATH = os.path.abspath(os.path.join(
+    os.path.dirname(__file__), '..', 'chroma_db'))
 
 CHUNK_SIZE = 1000
 CHUNK_OVERLAP = 50
