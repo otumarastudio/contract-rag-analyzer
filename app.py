@@ -6,24 +6,24 @@ from qa_data import qa_pairs
 import re
 import markdown2
 from flask import Flask, render_template, request, redirect, url_for, jsonify, g, session
-import pyrebase
-import firebase_admin
-from firebase_admin import credentials, auth
-from rag.utils.config import FIREBASE_WEB_API_KEY
-from rag.utils.config import (
-    FIREBASE_WEB_API_KEY,
-    FIREBASE_AUTH_DOMAIN,
-    FIREBASE_PROJECT_ID,
-    FIREBASE_STORAGE_BUCKET,
-    FIREBASE_MESSAGING_SENDER_ID,
-    FIREBASE_APP_ID,
-    FIREBASE_PRIVATE_KEY_ID,
-    FIREBASE_PRIVATE_KEY,
-    FIREBASE_CLIENT_EMAIL,
-    FIREBASE_CLIENT_ID,
-    FIREBASE_CLIENT_CERT_URL,
-    FLASK_SECRET_KEY
-)
+# import pyrebase
+# import firebase_admin
+# from firebase_admin import credentials, auth
+# from rag.utils.config import FIREBASE_WEB_API_KEY
+# from rag.utils.config import (
+#     FIREBASE_WEB_API_KEY,
+#     FIREBASE_AUTH_DOMAIN,
+#     FIREBASE_PROJECT_ID,
+#     FIREBASE_STORAGE_BUCKET,
+#     FIREBASE_MESSAGING_SENDER_ID,
+#     FIREBASE_APP_ID,
+#     FIREBASE_PRIVATE_KEY_ID,
+#     FIREBASE_PRIVATE_KEY,
+#     FIREBASE_CLIENT_EMAIL,
+#     FIREBASE_CLIENT_ID,
+#     FIREBASE_CLIENT_CERT_URL,
+#     FLASK_SECRET_KEY
+# )
 
 import sys
 import os
