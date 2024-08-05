@@ -1,21 +1,27 @@
 # main.py
 
-import sys
-import logging
-import os
-from flask import Flask, request, render_template, jsonify, g
-import markdown2
-import re
-from .utils.config import CHROMADB_PATH, OPENAI_API_KEY
-from .utils.logger import log_function, logger
-from .core.data_ingestion import load_document
-from .core.data_processing import split_documents
-from .core.embedding import create_embeddings
-from .core.vector_store import create_vectorstore, load_vectorstore
-from .core.retrieval import create_retriever
-from .core.query_processing import create_prompt_template, query_enhancing  # 수정된 부분
-from .core.answer_generation import create_llm, create_chain
+import pysqlite3 as sqlite3  # pysqlite3를 sqlite3로 임포트
 from langchain_chroma import Chroma
+from .core.answer_generation import create_llm, create_chain
+from .core.query_processing import create_prompt_template, query_enhancing  # 수정된 부분
+from .core.retrieval import create_retriever
+from .core.vector_store import create_vectorstore, load_vectorstore
+from .core.embedding import create_embeddings
+from .core.data_processing import split_documents
+from .core.data_ingestion import load_document
+from .utils.logger import log_function, logger
+from .utils.config import CHROMADB_PATH, OPENAI_API_KEY
+import re
+import markdown2
+from flask import Flask, request, render_template, jsonify, g
+import os
+import logging
+import sys
+
+
+# sys.modules 딕셔너리를 통해 sqlite3 모듈을 pysqlite3 모듈로 오버라이드
+sys.modules['sqlite3'] = sqlite3
+
 
 # 현재 파일의 디렉토리를 파이썬 경로에 추가
 current_dir = os.path.dirname(os.path.abspath(__file__))

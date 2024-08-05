@@ -1,3 +1,5 @@
+import sqlite3
+import pysqlite3 as sqlite3  # pysqlite3를 sqlite3로 임포트
 import json
 from rag.utils.logger import logger
 from rag.utils.config import *
@@ -6,9 +8,18 @@ from qa_data import qa_pairs
 import re
 import markdown2
 from flask import Flask, render_template, request, redirect, url_for, jsonify, g, session
-# import pyrebase
-# import firebase_admin
-# from firebase_admin import credentials, auth
+import pyrebase
+import firebase_admin
+from firebase_admin import credentials, auth
+import sys
+import os
+__import__('pysqlite3')
+
+
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+# sys.modules 딕셔너리를 통해 sqlite3 모듈을 pysqlite3 모듈로 오버라이드
+# sys.modules['sqlite3'] = sqlite3
+
 # from rag.utils.config import FIREBASE_WEB_API_KEY
 # from rag.utils.config import (
 #     FIREBASE_WEB_API_KEY,
@@ -25,11 +36,6 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify, g
 #     FLASK_SECRET_KEY
 # )
 
-import sys
-import os
-
-# __import__('pysqlite3')
-# sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 # 현재 파일의 디렉토리를 파이썬 경로에 추가
 # current_dir = os.path.dirname(os.path.abspath(__file__))
